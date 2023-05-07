@@ -2,7 +2,6 @@ import { Outlet } from "react-router-dom";
 import {
   AppBar,
   IconButton,
-  Link,
   Avatar,
   Typography,
   TextField,
@@ -25,6 +24,7 @@ import {
 } from "@mui/icons-material";
 import Slider from "../../components/slider/slider.component";
 import React from "react";
+import { Link } from "react-router-dom";
 
 const HamburgerIcon: ExtendButtonBase<IconButtonTypeMap<{}, "button">> = (
   props: React.PropsWithChildren
@@ -34,10 +34,10 @@ const HamburgerIcon: ExtendButtonBase<IconButtonTypeMap<{}, "button">> = (
   </IconButton>
 );
 
-const top100Films = [
-  { label: "The Shawshank Redemption", year: 1994 },
-  { label: "The Godfather", year: 1972 },
-  { label: "The Godfather: Part II", year: 1974 },
+const top100Players = [
+  { label: "Roger Federer", year: 1994 },
+  { label: "Rafael Nadal", year: 1972 },
+  { label: "Novak Djokovic", year: 1974 },
 ];
 
 const Navigation: React.FC = () => {
@@ -52,11 +52,7 @@ const Navigation: React.FC = () => {
   };
   return (
     <Box display="flex" flexDirection="row">
-      {open ? (
-        <Slider isOpen={open} handleDrawerClose={handleDrawerClose} />
-      ) : (
-        <></>
-      )}
+      {open && <Slider isOpen={open} handleDrawerClose={handleDrawerClose} />}
       <Box
         sx={{
           display: "flex",
@@ -74,7 +70,7 @@ const Navigation: React.FC = () => {
               },
             }}
           >
-            {!open ? <HamburgerIcon onClick={handleDrawerOpen} /> : <></>}
+            {!open && <HamburgerIcon onClick={handleDrawerOpen} />}
 
             <Stack
               direction="row"
@@ -86,10 +82,10 @@ const Navigation: React.FC = () => {
                 <Autocomplete
                   disablePortal
                   id="combo-box-demo"
-                  options={top100Films}
+                  options={top100Players}
                   sx={{ width: 300 }}
                   renderInput={(params) => (
-                    <TextField {...params} label="Movie" />
+                    <TextField {...params} label="Players" />
                   )}
                 />
               </Stack>
@@ -109,7 +105,12 @@ const Navigation: React.FC = () => {
                   justifyContent="center"
                 >
                   <Typography variant="subtitle2">Tomas Escamez</Typography>
-                  <Avatar src="https://i.pravatar.cc/150" alt="Tomas Escamez" />
+                  <Link to="/profile">
+                    <Avatar
+                      src="https://i.pravatar.cc/150"
+                      alt="Tomas Escamez"
+                    />
+                  </Link>
                 </Stack>
               </Stack>
             </Stack>
