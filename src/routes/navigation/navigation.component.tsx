@@ -1,4 +1,3 @@
-import { Fragment } from "react";
 import { Outlet } from "react-router-dom";
 import {
   AppBar,
@@ -24,6 +23,8 @@ import {
   LightModeOutlined,
   Menu,
 } from "@mui/icons-material";
+import Slider from "../../components/slider/slider.component";
+import React from "react";
 
 const HamburgerIcon: ExtendButtonBase<IconButtonTypeMap<{}, "button">> = (
   props: React.PropsWithChildren
@@ -40,60 +41,92 @@ const top100Films = [
 ];
 
 const Navigation: React.FC = () => {
-  return (
-    <Fragment>
-      <AppBar color="default" position="sticky" elevation={1}>
-        <Toolbar
-          sx={{
-            paddingLeft: {
-              sm: "24px",
-              md: "24px",
-            },
-          }}
-        >
-          <HamburgerIcon />
+  const [open, setOpen] = React.useState(true);
 
-          <Stack
-            direction="row"
-            width="100%"
-            justifyContent="space-between"
-            alignItems="center"
+  const handleDrawerOpen = () => {
+    setOpen(true);
+  };
+
+  const handleDrawerClose = () => {
+    setOpen(false);
+  };
+  return (
+    <Box display="flex" flexDirection="row">
+      {open ? (
+        <Slider isOpen={open} handleDrawerClose={handleDrawerClose} />
+      ) : (
+        <></>
+      )}
+      <Box
+        sx={{
+          display: "flex",
+          flexDirection: "column",
+          flex: 1,
+          minHeight: "100vh",
+        }}
+      >
+        <AppBar color="default" position="sticky" elevation={1}>
+          <Toolbar
+            sx={{
+              paddingLeft: {
+                sm: "24px",
+                md: "24px",
+              },
+            }}
           >
-            <Stack direction="row" flex={1}>
-              <Autocomplete
-                disablePortal
-                id="combo-box-demo"
-                options={top100Films}
-                sx={{ width: 300 }}
-                renderInput={(params) => (
-                  <TextField {...params} label="Movie" />
-                )}
-              />
-            </Stack>
-            <Stack direction="row" alignItems="center">
-              <IconButton
-                onClick={() => {
-                  console.log("set dark or light mode");
-                }}
-              >
-                {/* {mode === "dark" ? <LightModeOutlined /> : <DarkModeOutlined />} */}
-                <DarkModeOutlined />
-              </IconButton>
-              <Stack
-                direction="row"
-                gap="4px"
-                alignItems="center"
-                justifyContent="center"
-              >
-                <Typography variant="subtitle2">Tomas Escamez</Typography>
-                <Avatar src="https://i.pravatar.cc/150" alt="Tomas Escamez" />
+            {!open ? <HamburgerIcon onClick={handleDrawerOpen} /> : <></>}
+
+            <Stack
+              direction="row"
+              width="100%"
+              justifyContent="space-between"
+              alignItems="center"
+            >
+              <Stack direction="row" flex={1}>
+                <Autocomplete
+                  disablePortal
+                  id="combo-box-demo"
+                  options={top100Films}
+                  sx={{ width: 300 }}
+                  renderInput={(params) => (
+                    <TextField {...params} label="Movie" />
+                  )}
+                />
+              </Stack>
+              <Stack direction="row" alignItems="center">
+                <IconButton
+                  onClick={() => {
+                    console.log("set dark or light mode");
+                  }}
+                >
+                  {/* {mode === "dark" ? <LightModeOutlined /> : <DarkModeOutlined />} */}
+                  <DarkModeOutlined />
+                </IconButton>
+                <Stack
+                  direction="row"
+                  gap="4px"
+                  alignItems="center"
+                  justifyContent="center"
+                >
+                  <Typography variant="subtitle2">Tomas Escamez</Typography>
+                  <Avatar src="https://i.pravatar.cc/150" alt="Tomas Escamez" />
+                </Stack>
               </Stack>
             </Stack>
-          </Stack>
-        </Toolbar>
-      </AppBar>
-      <Outlet />
-    </Fragment>
+          </Toolbar>
+        </AppBar>
+        <Box
+          component="main"
+          sx={{
+            p: { xs: 1, md: 2, lg: 3 },
+            flexGrow: 1,
+            bgcolor: (theme) => theme.palette.background.default,
+          }}
+        >
+          <Outlet />
+        </Box>
+      </Box>
+    </Box>
   );
 };
 
